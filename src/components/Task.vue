@@ -44,11 +44,11 @@ export default {
     },
   },
   methods:{
-    inProgress(tasks){
-      return !this.isComplete(task);
+    inProgress(task){
+      return !this.isCompleted(task);
     },
-    isComplete(tasks){
-      return tasks.completed;
+    isCompleted(task){
+      return task.completed;
     },
     clearCompleted(){
       this.tasks= this.tasks.filter(this.inProgress);
