@@ -7,17 +7,20 @@
       </div>
       <!-- form -->
       <div class="form">
-        <input type="text" placeholder="New Task" v-model="newTask" @keyup.enter="addTask"/>
+        <input
+          type="text"
+          placeholder="New Task"
+          v-model="newTask"
+          @keyup.enter="addTask"
+        />
         <button @click="addTask"><i class="fas fa-plus"></i></button>
       </div>
       <!-- task lists -->
       <div class="taskItems">
         <ul>
-          <li v-for="task in tasks" :key="task.id">
-            <button><i class="far fa-circle"></i>{{task.title}}</button>
-            <button><i class="far fa-trash-alt"></i></button>
-          </li>
-         
+          <task-item v-bind:task="task"          
+          v-for="task in tasks" 
+          :key="task.id"></task-item>
         </ul>
       </div>
       <!-- buttons -->
@@ -27,51 +30,53 @@
       </div>
       <!-- pending task -->
       <div class="pendingTasks">
-        <span>Pending Tasks: {{incomplete}}</span>
+        <span>Pending Tasks: {{ incomplete }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import TaskItem from "../components/Task-item.vue";
 export default {
   name: "Task",
-  props:['tasks'],
-  data(){
-    return{
-      newTask:"",
-    }
+  props: ["tasks"],
+  components: {
+    TaskItem,
   },
-  computed:{
-    incomplete(){
-      return this.tasks.filter(this.inProgress).length ;
-
+  data() {
+    return {
+      newTask: "",
+    };
+  },
+  computed: {
+    incomplete() {
+      return this.tasks.filter(this.inProgress).length;
     },
   },
-  methods:{
-    addTask(){
-      if(this.newTask){
+  methods: {
+    addTask() {
+      if (this.newTask) {
         this.tasks.push({
           title: this.newTask,
-          completed:false,
+          completed: false,
         });
       }
-      this.newTask="";
-
+      this.newTask = "";
     },
-    inProgress(task){
+    inProgress(task) {
       return !this.isCompleted(task);
     },
-    isCompleted(task){
+    isCompleted(task) {
       return task.completed;
     },
-    clearCompleted(){
-      this.tasks= this.tasks.filter(this.inProgress);
+    clearCompleted() {
+      this.tasks = this.tasks.filter(this.inProgress);
     },
 
     clearAll() {
-      this.tasks=[];
-    }
+      this.tasks = [];
+    },
   },
 };
 </script>
