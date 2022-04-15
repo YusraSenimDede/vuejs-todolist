@@ -18,9 +18,13 @@
       <!-- task lists -->
       <div class="taskItems">
         <ul>
-          <task-item v-bind:task="task"          
-          v-for="task in tasks" 
-          :key="task.id"></task-item>
+          <task-item
+            v-bind:task="task"
+            v-for="(task, index) in tasks"
+            :key="task.id"
+            @remove="removeTask(index)"
+            @complete="completeTask(task)"
+          ></task-item>
         </ul>
       </div>
       <!-- buttons -->
@@ -76,6 +80,12 @@ export default {
 
     clearAll() {
       this.tasks = [];
+    },
+    completeTask(task) {
+      task.completed = !task.completed;
+    },
+    removeTask(index) {
+      this.tasks.splice(index, 1);
     },
   },
 };
